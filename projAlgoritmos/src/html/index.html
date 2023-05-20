@@ -1,32 +1,26 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <title>Flexbox</title>
+  <head>
+    <title>Laço de Repetição</title>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/styles.css" />
-</head>
+  </head>
 
-<body>
-    <h1>Posicionamento com Flexbox</h1>
-    <p id="texto-tarefa"></p>
-    <div class="questao">
-        <img src="../img/mario.jpg" alt="Imagem de exemplo" />
-        <form class="teste">
-            <input type="text" id="resposta" placeholder="Propriedades flexbox..." />
-            <button type="submit">Verificar</button>
-        </form>
-        <p id="resultado"></p>
-    </div>
+  <body>
+    <h1>Jogo de Laço de Repetição</h1>
 
-    <!-- Modal com as novas tarefas -->
-    <div for="resposta" id="modal" class="modal">
-        <div class="conteudo-modal"></div>
+    <div id="pergunta"></div>
+    <input type="text" id="resposta" placeholder="Insira sua resposta" />
+    <button onclick="verificarResposta()">Verificar</button>
+    <p id="resultado"></p>
+
+    <div id="contador">
+      <h2>Contagem de 1 a 10:</h2>
+      <ul id="contagem"></ul>
     </div>
 
     <script src="../js/script.js"></script>
-</body>
-
+  </body>
 </html>

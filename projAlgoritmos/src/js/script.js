@@ -1,72 +1,76 @@
-const formulario = document.querySelector("form");
-const entradaResposta = document.querySelector("#resposta");
-const textoResultado = document.querySelector("#resultado");
-const textoTarefa = document.querySelector("#texto-tarefa");
-const imagem = document.querySelector("img");
-
-let tarefaAtual = 0;
-
-const tarefas = [
-    {
-        texto: "Posicione a imagem no canto superior esquerdo da tela usando as propriedades 'justify-content' e 'align-items'.",
-        resposta: "justify-content: flex-start; align-items: flex-start;",
-    },
-    {
-        texto: "Posicione a imagem no canto superior direito da tela usando as propriedades 'justify-content' e 'align-items'.",
-        resposta: "justify-content: flex-end; align-items: flex-start;",
-    },
-    {
-        texto: "Posicione a imagem no centro da tela horizontalmente usando a propriedade 'justify-content'.",
-        resposta: "justify-content: center;",
-    },
-    {
-        texto: "Posicione a imagem no centro da tela verticalmente usando a propriedade 'align-items'.",
-        resposta: "align-items: center;",
-    },
+var indicePergunta = 0;
+var perguntas = [
+  {
+    pergunta: "Como contar de 1 a 10 utilizando um loop for?",
+    resposta: "for(var i = 1; i <= 10; i++)",
+  },
+  {
+    pergunta: "Como contar de 1 a 10 utilizando um loop while?",
+    resposta: "var i = 1; while(i <= 10) { i++; }",
+  },
+  {
+    pergunta: "Como contar de 1 a 10 utilizando um loop do while?",
+    resposta: "var i = 1; do { i++; } while(i <= 10);",
+  },
 ];
 
-exibirTarefa(tarefaAtual);
+var elementoPergunta = document.getElementById("pergunta");
+var elementoResposta = document.getElementById("resposta");
+var elementoResultado = document.getElementById("resultado");
+var elementoContador = document.getElementById("contador");
+var elementoContagem = document.getElementById("contagem");
+var botaoVerificar = document.getElementById("verificar");
+var elementoH2 = document.querySelector("h2");
 
-formulario.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const resposta = entradaResposta.value.toLowerCase();
-
-    if (resposta === tarefas[tarefaAtual].resposta) {
-        textoResultado.textContent = "Parabéns, você acertou!";
-        textoResultado.style.color = "#1abc9c";
-        tarefaAtual++;
-        entradaResposta.value = "";
-        exibirTarefa(tarefaAtual);
-
-        if (tarefaAtual === tarefas.length) {
-            entradaResposta.disabled = true;
-        } else {
-            atualizarPosicaoImagem(tarefaAtual);
-        }
-    } else {
-        textoResultado.textContent = "Ops, tente novamente!";
-        textoResultado.style.color = "#c0392b";
-    }
-});
-
-function exibirTarefa(indice) {
-    textoTarefa.textContent = tarefas[indice].texto;
+function exibirProximaPergunta() {
+  if (indicePergunta < perguntas.length) {
+    elementoPergunta.textContent = perguntas[indicePergunta].pergunta;
+    elementoResposta.value = "";
+    elementoResultado.textContent = "";
+    elementoContador.style.display = "none";
+  } else {
+    elementoPergunta.textContent = "Parabéns! Você concluiu o jogo.";
+    elementoResposta.style.display = "none";
+    elementoResultado.style.display = "none";
+    elementoContador.style.display = "none";
+    botaoVerificar.style.display = "none";
+  }
 }
 
-function atualizarPosicaoImagem(indice) {
-    if (indice === 0) {
-        imagem.style.left = "0";
-        imagem.style.top = "0";
-    } else if (indice === 1) {
-        imagem.style.left = "calc(100% - 100px)";
-        imagem.style.top = "0";
-    } else if (indice === 2) {
-        imagem.style.left = "50%";
-        imagem.style.top = "50%";
-    } else if (indice === 3) {
-        imagem.style.left = "calc(50% - 50px)";
-        imagem.style.top = "calc(100% - 100px)";
+function contarNumeros() {
+  elementoContagem.innerHTML = ""; // Limpa a contagem anterior
+  var i = 1;
+  var intervalo = setInterval(function () {
+    var numeroElemento = document.createElement("li");
+    numeroElemento.textContent = i;
+    elementoContagem.appendChild(numeroElemento);
+    i++;
+    if (i > 11) {
+      elementoContagem.innerHTML = "";
+      elementoH2.innerHTML = "";
+      numeroElemento.textContent = i;
+      clearInterval(intervalo);
+      setTimeout(function () {
+        elementoResultado.textContent =
+          "Você será direcionado para a próxima pergunta.";
+        indicePergunta++;
+        setTimeout(exibirProximaPergunta, 2000);
+      }, 500);
     }
-
-    imagem.style.position = "absolute";
+  }, 500);
 }
+
+function verificarResposta() {
+  var respostaUsuario = elementoResposta.value.replace(/\s/g, ""); // Remove todos os espaços em branco
+  var respostaCorreta = perguntas[indicePergunta].resposta.replace(/\s/g, ""); // Remove todos os espaços em branco
+
+  if (respostaUsuario === respostaCorreta) {
+    elementoResultado.textContent = "Resposta correta!";
+    elementoContador.style.display = "block";
+    contarNumeros();
+  } else {
+    elementoResultado.textContent = "Resposta incorreta. Tente novamente.";
+  }
+}
+
+exibirProximaPergunta();
