@@ -9,16 +9,17 @@
   </head>
 
   <body>
-    <h1>Jogo de Laço de Repetição</h1>
-
-    <div id="pergunta"></div>
-    <input type="text" id="resposta" placeholder="Insira sua resposta" />
-    <button onclick="verificarResposta()">Verificar</button>
-    <p id="resultado"></p>
-
-    <div id="contador">
-      <h2>Contagem de 1 a 10:</h2>
+    <div class="container">
+      <h1>Jogo de Laço de Repetição</h1>
+      <div id="pergunta"></div>
+      <input type="text" id="resposta" placeholder="Digite sua resposta" />
+      <button id="verificar" onclick="verificarResposta()">Verificar</button>
+      <p id="resultado"></p>
       <ul id="contagem"></ul>
+      <div id="contador">
+        <h2>Contagem de 1 a 10:</h2>
+        <ul id="contagem"></ul>
+      </div>
     </div>
 
     <script src="../js/script.js"></script>
