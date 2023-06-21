@@ -2,20 +2,35 @@ var indicePergunta = 0;
 var perguntas = [
   {
     pergunta: "Como contar de 1 a 10 utilizando um loop for?",
-    resposta: "for(var i = 1; i <= 10; i++)",
+    resposta: "for (var i = 1; i <= 10; i++)",
+    opcoes: [
+      "for (var i = 1; i <= 10; i++)",
+      "count (var i = 1; i <= 10; i++)",
+      "for (var = 1; i < 10; i++)",
+    ],
   },
   {
     pergunta: "Como contar de 1 a 10 utilizando um loop while?",
     resposta: "var i = 1; while(i <= 10) { i++; }",
+    opcoes: [
+      "count (var i = 1; i <= 10; i++)",
+      "var i = 1; while(i <= 10) { i++; }",
+      "var i = 1; loop(i < 10) { i--; }",
+    ],
   },
   {
     pergunta: "Como contar de 1 a 10 utilizando um loop do while?",
     resposta: "var i = 1; do { i++; } while(i <= 10);",
+    opcoes: [
+      "loop { var i = 1; i++; } until(i <= 10);",
+      "var i = 1; do { i++; } while(i <= 10);",
+      "var i = 1; do { i--; } until(i < 10);",
+    ],
   },
 ];
 
 var elementoPergunta = document.getElementById("pergunta");
-var elementoResposta = document.getElementById("resposta");
+var elementoOpcoes = document.getElementById("opcoes");
 var elementoResultado = document.getElementById("resultado");
 var elementoContador = document.getElementById("contador");
 var elementoContagem = document.getElementById("contagem");
@@ -25,17 +40,27 @@ var elementoH2 = document.querySelector("h2");
 function exibirProximaPergunta() {
   if (indicePergunta < perguntas.length) {
     elementoPergunta.textContent = perguntas[indicePergunta].pergunta;
-    elementoResposta.value = "";
+    elementoOpcoes.innerHTML = "";
+    perguntas[indicePergunta].opcoes.forEach((opcao) => {
+      var button = document.createElement("button");
+      button.textContent = opcao;
+      button.onclick = function () {
+        verificarResposta(opcao);
+      };
+      elementoOpcoes.appendChild(button);
+    });
     elementoResultado.textContent = "";
     elementoContador.style.display = "none";
   } else {
     elementoPergunta.textContent = "Parabéns! Você concluiu o jogo.";
-    elementoResposta.style.display = "none";
+    elementoOpcoes.style.display = "none";
     elementoResultado.style.display = "none";
     elementoContador.style.display = "none";
     botaoVerificar.style.display = "none";
   }
 }
+
+// Continua o código...
 
 function contarNumeros() {
   elementoContagem.innerHTML = ""; // Limpa a contagem anterior
@@ -54,16 +79,14 @@ function contarNumeros() {
         elementoResultado.textContent =
           "Você será direcionado para a próxima pergunta.";
         indicePergunta++;
-        setTimeout(exibirProximaPergunta, 2000);
-      }, 500);
+        setTimeout(exibirProximaPergunta, 1800);
+      }, 400);
     }
-  }, 500);
+  }, 400);
 }
 
-function verificarResposta() {
-  var respostaUsuario = elementoResposta.value.replace(/\s/g, ""); // Remove todos os espaços em branco
-  var respostaCorreta = perguntas[indicePergunta].resposta.replace(/\s/g, ""); // Remove todos os espaços em branco
-
+function verificarResposta(respostaUsuario) {
+  var respostaCorreta = perguntas[indicePergunta].resposta;
   if (respostaUsuario === respostaCorreta) {
     elementoResultado.textContent = "Resposta correta!";
     elementoContador.style.display = "block";
